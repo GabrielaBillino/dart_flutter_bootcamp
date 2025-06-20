@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
   // TODO(4): Mostrar un SnackBar si el contador alcanza 5. Con ScaffoldMessenger.of(context).showSnackBar(...)
-  void _incrementCounter() {
+  void _incrementCounter() { 
     setState(() {
       _counter++;
     });

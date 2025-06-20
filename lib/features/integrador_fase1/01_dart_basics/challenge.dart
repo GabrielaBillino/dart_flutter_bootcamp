@@ -68,6 +68,7 @@ Future<Usuario> getUserProfile(String username) async {
 
   //Se formatea username para que cumpla las validaciones de formato del test
   String nameUser = username[0].toUpperCase() + username.substring(1).toLowerCase();
+  
   // Edad y hobbies ficticios
   int ageUser = username == 'admin' ? 40 : 24;
   List<String> hobbiesUser = ['Gimnasio', 'Estudiar'];

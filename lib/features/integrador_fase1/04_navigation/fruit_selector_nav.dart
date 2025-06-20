@@ -70,7 +70,6 @@ class FruitSelectionScreen extends StatelessWidget {
         itemCount: fruits.length,
         itemBuilder: (context, index) {
           final fruit = fruits[index]; 
-
           return ListTile(
             title: Text(fruit),
             onTap: () {

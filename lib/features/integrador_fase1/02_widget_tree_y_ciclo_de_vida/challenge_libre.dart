@@ -79,9 +79,7 @@ class _MoodChangerWidgetState extends State<MoodChangerWidget> {
       return 'Hoy estás: Enojado 🔥';
     default:
       return 'Hoy estás: ???';
-  }
-
-  
+  }  
   }
 
   @override

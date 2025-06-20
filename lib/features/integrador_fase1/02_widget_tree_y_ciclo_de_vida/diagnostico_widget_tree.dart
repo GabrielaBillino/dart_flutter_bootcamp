@@ -44,6 +44,7 @@ class _DiagnosticPageState extends State<DiagnosticPage> {
     });
   }
 //********************** Fin serctor con error **********************/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
