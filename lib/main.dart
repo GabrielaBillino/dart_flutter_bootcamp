@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'features/integrador_fase1/03_construyendo_ui/challenge_libre.dart';
-
-void main() {
-  runApp(const MaterialApp(
-    home: WelcomeScreen(),
-  ));
-}  
+import 'core/injection.dart';
+import 'features/evaluacion_final/features/huerta_inteligente/presentation/pages/cultivos_screen.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await configureDependencies();
+  runApp(const MaterialApp(home: CultivosScreen()));
+}
 
