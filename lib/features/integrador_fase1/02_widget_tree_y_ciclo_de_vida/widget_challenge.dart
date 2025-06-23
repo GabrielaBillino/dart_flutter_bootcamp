@@ -4,7 +4,7 @@ void main() {
   runApp(const MyApp());
 }
 
-// ✔️ Punto de entrada de la app.
+//Punto de entrada de la app.
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// ✔️ Página principal, StatefulWidget.
+//Página principal, StatefulWidget.
 class MyHomePage extends StatefulWidget {
   final String title;
 
@@ -35,7 +35,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-// 🧠 Acá ocurre la magia del ciclo de vida.
+
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
