@@ -1,0 +1,21 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'cultivo.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$CultivoImpl _$$CultivoImplFromJson(Map<String, dynamic> json) =>
+    _$CultivoImpl(
+      nombre: json['nombre'] as String,
+      fechaSiembra: DateTime.parse(json['fechaSiembra'] as String),
+      cosechado: json['cosechado'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$$CultivoImplToJson(_$CultivoImpl instance) =>
+    <String, dynamic>{
+      'nombre': instance.nombre,
+      'fechaSiembra': instance.fechaSiembra.toIso8601String(),
+      'cosechado': instance.cosechado,
+    };

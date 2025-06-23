@@ -24,7 +24,57 @@ class _CultivosView extends StatefulWidget {
 }
 
 class _CultivosViewState extends State<_CultivosView> {
-  final _controller = TextEditingController();
+  // ── FAB para abrir el diálogo de alta ──────────────────────────────────
+  void _mostrarModalAgregar(BuildContext context) {
+    final controller = TextEditingController();
+
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (_) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: const Text('Nuevo Cultivo'),
+          content: TextField(
+            controller: controller,
+            decoration:
+                const InputDecoration(labelText: 'Nombre del cultivo'),
+            autofocus: true,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancelar'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final texto = controller.text.trim();
+                if (texto.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('⚠️ Ingrese un nombre válido'),
+                      backgroundColor: Colors.orange,
+                    ),
+                  );
+                  return;
+                }
+                context.read<CultivosCubit>().agregar(texto);
+                Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('✅ Cultivo “$texto” agregado'),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              },
+              child: const Text('Agregar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,89 +83,73 @@ class _CultivosViewState extends State<_CultivosView> {
         backgroundColor: const Color.fromARGB(223, 88, 235, 88),
         title: const Text('Mi Huerta Inteligente'),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => _mostrarModalAgregar(context),
+        icon: const Icon(Icons.add),
+        label: const Text('Añadir cultivo'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            // Campo de texto para ingresar cultivo
+            // ── Campo de búsqueda ────────────────────────────────────────
             TextField(
-              controller: _controller,
-              decoration: const InputDecoration(labelText: 'Nombre del cultivo'),
-            ),
-            const SizedBox(height: 8),
-            // Botón para agregar cultivo
-            ElevatedButton(
-              onPressed: () {
-                final texto = _controller.text.trim();
-
-                if (texto.isEmpty) {
-                  // Mostrar error si está vacío
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('⚠️ Ingrese un nombre para el cultivo'),
-                      backgroundColor: Colors.orange,
-                    ),
-                  );
-                  return;
-                }
-
-                // Agregar cultivo
-                context.read<CultivosCubit>().agregar(texto);
-                _controller.clear();
-
-                // Confirmación de agregado
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('✅ Cultivo “$texto” agregado'),
-                    backgroundColor: Colors.green,
-                  ),
-                );
-              },
-              child: const Text('Agregar Cultivo'),
+              decoration: const InputDecoration(
+                labelText: 'Buscar cultivo',
+                prefixIcon: Icon(Icons.search),
+              ),
+              onChanged: (texto) =>
+                  context.read<CultivosCubit>().aplicarFiltro(texto),
             ),
             const SizedBox(height: 16),
-            // Mostrar listas de cultivos
+            // ── Listas de cultivos ──────────────────────────────────────
             Expanded(
               child: BlocBuilder<CultivosCubit, CultivosState>(
-                builder: (_, state) => Row(
-                  children: [
-                    // Lista de cultivos activos
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.green[50],
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.green,
-                              blurRadius: 8,
-                              offset: const Offset(2, 2),
-                            ),
-                          ],
+                builder: (_, state) {
+                  final cubit = context.read<CultivosCubit>();
+                  final activos = cubit.activosFiltrados;
+                  final cosechados = cubit.cosechadosFiltrados;
+
+                  return Row(
+                    children: [
+                      // Activos
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.green[50],
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.green.withOpacity(0.2),
+                                blurRadius: 8,
+                                offset: const Offset(2, 2),
+                              ),
+                            ],
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: _buildLista('Activos', activos, false),
                         ),
-                        padding: const EdgeInsets.all(8),
-                        child: _buildLista('Activos', state.activos, false),
                       ),
-                    ),
-                    const VerticalDivider(),
-                    // Lista de cultivos cosechados
-                    Expanded(
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 164, 240, 180),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.brown,
-                              blurRadius: 6,
-                              offset: Offset(2, 2),
-                            ),
-                          ],
+                      const VerticalDivider(),
+                      // Cosechados
+                      Expanded(
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Color.fromARGB(255, 164, 240, 180),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.brown,
+                                blurRadius: 6,
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: _buildLista('Cosechados', cosechados, true),
                         ),
-                        padding: const EdgeInsets.all(8),
-                        child: _buildLista('Cosechados', state.cosechados, true),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  );
+                },
               ),
             ),
           ],
@@ -124,15 +158,15 @@ class _CultivosViewState extends State<_CultivosView> {
     );
   }
 
-  // Construcción de cada lista (activos / cosechados)
+  // ────────────────────────────────────────────────────────────────────────
+  // Construcción de cada lista
+  // ────────────────────────────────────────────────────────────────────────
   Widget _buildLista(String titulo, List<Cultivo> lista, bool deshabilitado) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          titulo,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
+        Text(titulo,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         const SizedBox(height: 8),
         Expanded(
           child: ListView.builder(
@@ -145,8 +179,9 @@ class _CultivosViewState extends State<_CultivosView> {
               trailing: !deshabilitado
                   ? IconButton(
                       icon: const Icon(Icons.grass),
-                      onPressed: () =>
-                          context.read<CultivosCubit>().marcarCosechado(lista[i]),
+                      onPressed: () => context
+                          .read<CultivosCubit>()
+                          .marcarCosechado(lista[i]),
                     )
                   : const Icon(Icons.check, color: Colors.green),
             ),

@@ -13,7 +13,7 @@ class GestorCultivos {
   }
 
   void cosechar(Cultivo cultivo) {
-    _repo.actualizar(cultivo.marcarCosechado());
+    _repo.actualizar(cultivo.copyWith(cosechado: true));
   }
 
   List<Cultivo> activos() =>

@@ -19,6 +19,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CultivosState {
   List<Cultivo> get activos => throw _privateConstructorUsedError;
   List<Cultivo> get cosechados => throw _privateConstructorUsedError;
+  String get filtro => throw _privateConstructorUsedError;
 
   /// Create a copy of CultivosState
   /// with the given fields replaced by the non-null parameter values.
@@ -34,7 +35,7 @@ abstract class $CultivosStateCopyWith<$Res> {
     $Res Function(CultivosState) then,
   ) = _$CultivosStateCopyWithImpl<$Res, CultivosState>;
   @useResult
-  $Res call({List<Cultivo> activos, List<Cultivo> cosechados});
+  $Res call({List<Cultivo> activos, List<Cultivo> cosechados, String filtro});
 }
 
 /// @nodoc
@@ -51,7 +52,11 @@ class _$CultivosStateCopyWithImpl<$Res, $Val extends CultivosState>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? activos = null, Object? cosechados = null}) {
+  $Res call({
+    Object? activos = null,
+    Object? cosechados = null,
+    Object? filtro = null,
+  }) {
     return _then(
       _value.copyWith(
             activos: null == activos
@@ -62,6 +67,10 @@ class _$CultivosStateCopyWithImpl<$Res, $Val extends CultivosState>
                 ? _value.cosechados
                 : cosechados // ignore: cast_nullable_to_non_nullable
                       as List<Cultivo>,
+            filtro: null == filtro
+                ? _value.filtro
+                : filtro // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -77,7 +86,7 @@ abstract class _$$CultivosStateImplCopyWith<$Res>
   ) = __$$CultivosStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Cultivo> activos, List<Cultivo> cosechados});
+  $Res call({List<Cultivo> activos, List<Cultivo> cosechados, String filtro});
 }
 
 /// @nodoc
@@ -93,7 +102,11 @@ class __$$CultivosStateImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? activos = null, Object? cosechados = null}) {
+  $Res call({
+    Object? activos = null,
+    Object? cosechados = null,
+    Object? filtro = null,
+  }) {
     return _then(
       _$CultivosStateImpl(
         activos: null == activos
@@ -104,6 +117,10 @@ class __$$CultivosStateImplCopyWithImpl<$Res>
             ? _value._cosechados
             : cosechados // ignore: cast_nullable_to_non_nullable
                   as List<Cultivo>,
+        filtro: null == filtro
+            ? _value.filtro
+            : filtro // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -115,6 +132,7 @@ class _$CultivosStateImpl implements _CultivosState {
   const _$CultivosStateImpl({
     final List<Cultivo> activos = const <Cultivo>[],
     final List<Cultivo> cosechados = const <Cultivo>[],
+    this.filtro = '',
   }) : _activos = activos,
        _cosechados = cosechados;
 
@@ -137,8 +155,12 @@ class _$CultivosStateImpl implements _CultivosState {
   }
 
   @override
+  @JsonKey()
+  final String filtro;
+
+  @override
   String toString() {
-    return 'CultivosState(activos: $activos, cosechados: $cosechados)';
+    return 'CultivosState(activos: $activos, cosechados: $cosechados, filtro: $filtro)';
   }
 
   @override
@@ -150,7 +172,8 @@ class _$CultivosStateImpl implements _CultivosState {
             const DeepCollectionEquality().equals(
               other._cosechados,
               _cosechados,
-            ));
+            ) &&
+            (identical(other.filtro, filtro) || other.filtro == filtro));
   }
 
   @override
@@ -158,6 +181,7 @@ class _$CultivosStateImpl implements _CultivosState {
     runtimeType,
     const DeepCollectionEquality().hash(_activos),
     const DeepCollectionEquality().hash(_cosechados),
+    filtro,
   );
 
   /// Create a copy of CultivosState
@@ -173,12 +197,15 @@ abstract class _CultivosState implements CultivosState {
   const factory _CultivosState({
     final List<Cultivo> activos,
     final List<Cultivo> cosechados,
+    final String filtro,
   }) = _$CultivosStateImpl;
 
   @override
   List<Cultivo> get activos;
   @override
   List<Cultivo> get cosechados;
+  @override
+  String get filtro;
 
   /// Create a copy of CultivosState
   /// with the given fields replaced by the non-null parameter values.
